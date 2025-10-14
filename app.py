@@ -95,6 +95,10 @@ def preprocess_data(history):
 
     # Make sure history is sorted by roundId ascending (oldest to newest)
     history = sorted(history, key=lambda x: int(x["roundId"]))
+    
+    for item in history:
+        if item.get("color") == "moon":
+            item["color"] = "green"
 
     for i in range(HISTORY_WINDOW, len(history) - 1):
         window = history[i - HISTORY_WINDOW : i]

@@ -9,6 +9,7 @@ import re
 # --- Configurable Parameters ---
 HISTORY_WINDOW = 20  # use last 20 rounds for prediction
 MODEL_FILENAME = "trenball_model_.pkl"
+INPUT_JSON_FILE="total.json"
 JSON_FILE="final.json"
 
 # --- Color Encoding ---
@@ -103,7 +104,7 @@ def predict_next_color(latest_history):
 # --- Example usage ---
 if __name__ == "__main__":
     # Load your JSON array of Trenball history (replace with your file or data source)
-    with open(JSON_FILE, "r", encoding="utf-8") as f:
+    with open(INPUT_JSON_FILE, "r", encoding="utf-8") as f:
         history = json.load(f)
 
     train_model(history)
