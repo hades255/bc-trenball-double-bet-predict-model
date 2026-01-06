@@ -12,8 +12,8 @@ import uvicorn
 
 DATA_FILE = os.getenv("GR_DATA_FILE", "./gr_data_test.txt")
 GCASES_FILE = os.getenv("GCASES_FILE", "./gcases_t.txt")
-HISTORY_SIZE = 42000
-RECALC_INTERVAL = 3000
+HISTORY_SIZE = 3000
+RECALC_INTERVAL = 500
 
 _recalc_task: Optional[asyncio.Task] = None
 
