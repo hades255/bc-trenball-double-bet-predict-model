@@ -61,7 +61,7 @@ def calculate_gcases(s: str) -> List[str]:
     gcases = []
     total_gwin = 0
 
-    for i in range(4, 13):
+    for i in range(8, 13):
         cases = generate_gr_strings(i)
         gwin = 0
 
@@ -71,8 +71,8 @@ def calculate_gcases(s: str) -> List[str]:
             d = g - r
 
             # Filter conditions matching the JavaScript logic
-            if (d > 0 and (d / len(s)) * 100 > 0.06) or (
-                (d / len(s)) * 100 > 0.03 and d * 3 > g
+            if d > 1 and (
+                ((d / len(s)) * 100 > 0.06) or ((d / len(s)) * 100 > 0.03 and d * 3 > g)
             ):
                 gwin += d
                 gcases.append(c)
