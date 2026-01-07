@@ -250,24 +250,24 @@ async def predict(cur: str):
         _predict_count += 1
 
         # If interval hit: return empty next, start recalculation in background thread
-        # if _predict_count % RECALC_INTERVAL == 0:
-        #     # snapshot history for this recalculation run
-        #     history_snapshot = _history
+        if _predict_count % RECALC_INTERVAL == 0:
+            # snapshot history for this recalculation run
+            history_snapshot = _history
 
-        #     # prevent stacking multiple recalcs if requests pile up
-        #     if _recalc_task is None or _recalc_task.done():
-        #         _recalc_task = asyncio.create_task(
-        #             _recalc_gcases_in_thread(history_snapshot)
-        #         )
+            # prevent stacking multiple recalcs if requests pile up
+            if _recalc_task is None or _recalc_task.done():
+                _recalc_task = asyncio.create_task(
+                    _recalc_gcases_in_thread(history_snapshot)
+                )
 
-        #     return {
-        #         "next": "",
-        #         "amount": 0,
-        #         # "matched_pattern": "",
-        #         "predict_count": _predict_count,
-        #         "next_recalc_in": RECALC_INTERVAL,
-        #         "recalc_started": True,
-        #     }
+            return {
+                "next": "",
+                "amount": 0,
+                # "matched_pattern": "",
+                "predict_count": _predict_count,
+                "next_recalc_in": RECALC_INTERVAL,
+                "recalc_started": True,
+            }
 
         # Normal path: Predict next
         result = _bot.process_round(cur)

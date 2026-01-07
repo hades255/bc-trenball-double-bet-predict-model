@@ -67,7 +67,6 @@ class BettingBot:
         return ""
 
     def predict_next(self):
-        return self.predictor.predict(self.history)
         if len(self.history) < 2:
             return "g"
         predicted_g = self.predict_next_from_gcases(self.history)
