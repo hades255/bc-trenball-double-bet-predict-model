@@ -213,7 +213,7 @@ async def lifespan(app: FastAPI):
     print(f"Loaded {len(_rcases)} rcases patterns")
 
     history = list(_history[-40:])
-    _bot = BettingBot(history, gcases=_gcases, rcases=_rcases, max_bet=16)
+    _bot = BettingBot(history, gcases=_gcases, rcases=_rcases, max_bet=32)
 
     yield
 
@@ -277,7 +277,7 @@ async def predict(cur: str):
 
         return {
             "next": nxt,
-            "amount": amount,
+            "amount": amount / 4,
             # "matched_pattern": matched_pattern,
             "predict_count": _predict_count,
             "next_recalc_in": RECALC_INTERVAL - (_predict_count % RECALC_INTERVAL),
