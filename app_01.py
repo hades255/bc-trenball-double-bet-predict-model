@@ -120,12 +120,12 @@ def read_history(path: str, n_chars: int) -> str:
         return ""
 
     with open(path, "rb") as f:
-        try:
-            f.seek(0, os.SEEK_END)
-            # size = f.tell()
-            # f.seek(max(0, size - n_chars))
-        except OSError:
-            f.seek(0)
+        # try:
+        #     f.seek(0, os.SEEK_END)
+        #     # size = f.tell()
+        #     # f.seek(max(0, size - n_chars))
+        # except OSError:
+        #     f.seek(0)
         data = f.read()
 
     text = data.decode("utf-8", errors="ignore")
