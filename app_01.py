@@ -15,7 +15,7 @@ from betting_bot import BettingBot
 DATA_FILE = os.getenv("GR_DATA_FILE", "./gr_data_test.txt")
 GCASES_FILE = os.getenv("GCASES_FILE", "./gcases_t.txt")
 RCASES_FILE = os.getenv("RCASES_FILE", "./rcases_t.txt")
-HISTORY_SIZE = 3000
+HISTORY_SIZE = 42000
 RECALC_INTERVAL = 500
 
 _recalc_task: Optional[asyncio.Task] = None
@@ -120,12 +120,12 @@ def read_history(path: str, n_chars: int) -> str:
         return ""
 
     with open(path, "rb") as f:
-        # try:
-        #     f.seek(0, os.SEEK_END)
-        #     # size = f.tell()
-        #     # f.seek(max(0, size - n_chars))
-        # except OSError:
-        #     f.seek(0)
+        try:
+            f.seek(0, os.SEEK_END)
+            size = f.tell()
+            f.seek(max(0, size - n_chars))
+        except OSError:
+            f.seek(0)
         data = f.read()
 
     text = data.decode("utf-8", errors="ignore")
@@ -136,7 +136,7 @@ def read_history(path: str, n_chars: int) -> str:
 
 def save_history(path: str, history: str):
     """Save history to file, keeping only HISTORY_SIZE chars"""
-    # history = history[-HISTORY_SIZE:]
+    history = history[-HISTORY_SIZE:]
     with open(path, "w", encoding="utf-8") as f:
         f.write(history)
     print("Save history to file")
@@ -244,7 +244,7 @@ async def predict(cur: str):
     async with _lock:
         # Update history
         _history += cur
-        # _history = _history[-HISTORY_SIZE:]
+        _history = _history[-HISTORY_SIZE:]
 
         # Increment predict count
         _predict_count += 1
