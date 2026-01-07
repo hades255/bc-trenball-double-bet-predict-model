@@ -1,3 +1,32 @@
+from collections import defaultdict
+
+
+class NextPredictor:
+    def __init__(self, max_context=4):
+        self.max_context = max_context
+        self.context_counts = defaultdict(lambda: {"g": 0, "r": 0})
+
+    def train(self, history):
+        for i in range(len(history)):
+            for k in range(1, self.max_context + 1):
+                if i - k < 0:
+                    break
+                ctx = tuple(history[i - k : i])
+                self.context_counts[(k, ctx)][history[i]] += 1
+
+    def predict(self, history):
+        for k in reversed(range(1, self.max_context + 1)):
+            if len(history) < k:
+                continue
+            ctx = tuple(history[-k:])
+            counts = self.context_counts.get((k, ctx))
+            if counts and (counts["g"] or counts["r"]):
+                return "g" if counts["g"] >= counts["r"] else "r"
+        total_g = sum(c["g"] for c in self.context_counts.values())
+        total_r = sum(c["r"] for c in self.context_counts.values())
+        return "g" if total_g >= total_r else "r"
+
+
 class BettingBot:
     def __init__(self, history, gcases=[], rcases=[], max_bet=16, last_count=40):
         if isinstance(history, str):
@@ -15,6 +44,9 @@ class BettingBot:
         self.labouchere_sequence = [1, 2, 3, 4]
         self.fibonacci_history = []
         self.last_count = last_count
+        
+        self.predictor = NextPredictor(max_context=4)
+        self.predictor.train(self.history)
 
     def initialize(self):
         self.current_strategy = "D'Alembert"
@@ -35,6 +67,7 @@ class BettingBot:
         return ""
 
     def predict_next(self):
+        return self.predictor.predict(self.history)
         if len(self.history) < 2:
             return "g"
         predicted_g = self.predict_next_from_gcases(self.history)
