@@ -325,6 +325,16 @@ async def force_recalc():
         return {"message": "Gcases recalculating"}
 
 
+@app.post("/api/recalc")
+async def force_init():
+    """Force recalculation of gcases"""
+    global _bot
+
+    _bot.initialize()
+
+    return {"message": "Betting bot initialized"}
+
+
 @app.get("/api")
 def root():
     return {"message": "Trenball Predictor API is running 🚀"}
