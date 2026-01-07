@@ -78,15 +78,15 @@ def calculate_gcases(s: str) -> List[str]:
 
             # Filter conditions matching the JavaScript logic
             if d > 3 and (
-                ((d / len(s)) * 100 > len(s) / 50000000)
-                or ((d / len(s)) * 100 > len(s) / 100000000 and d * 3 > g)
+                ((d / len(s)) * 100 > len(s) / 5000000)
+                or ((d / len(s)) * 100 > len(s) / 10000000 and d * 3 > g)
             ):
                 gwin += d
                 gcases.append(c)
 
             if d < -3 and (
-                ((p / len(s)) * 100 > len(s) / 50000000)
-                or ((p / len(s)) * 100 > len(s) / 100000000 and p * 3 > g)
+                ((p / len(s)) * 100 > len(s) / 5000000)
+                or ((p / len(s)) * 100 > len(s) / 10000000 and p * 3 > g)
             ):
                 gwin += d
                 rcases.append(c)
