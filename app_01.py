@@ -325,7 +325,7 @@ async def force_recalc():
         return {"message": "Gcases recalculating"}
 
 
-@app.post("/api/recalc")
+@app.post("/api/init")
 async def force_init():
     """Force recalculation of gcases"""
     global _bot
